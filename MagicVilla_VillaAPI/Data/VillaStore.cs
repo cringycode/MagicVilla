@@ -6,7 +6,7 @@ public static class VillaStore
 {
     public static List<VillaDTO> villaList = new List<VillaDTO>
     {
-        new VillaDTO { Id = 1, Name = "Pool Villa" },
-        new VillaDTO { Id = 2, Name = "Beach Villa" }
+        new VillaDTO { Id = 1, Name = "Pool Villa",Sqm = 100,Occupancy = 4},
+        new VillaDTO { Id = 2, Name = "Beach Villa",Sqm = 260,Occupancy = 7 }
     };
 }
