@@ -10,6 +10,15 @@ namespace MagicVilla_VillaAPI.Controllers;
 [ApiController]
 public class VillaAPIController : ControllerBase
 {
+    #region DI
+
+
+    public VillaAPIController()
+    {
+    }
+
+    #endregion
+
     #region GET ALL
 
     [HttpGet]
