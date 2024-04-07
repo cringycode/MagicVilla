@@ -10,8 +10,9 @@ public class AppDbContext : DbContext
     }
 
     public DbSet<Villa> Villas { get; set; }
+    public DbSet<VillaNumber> VillaNumbers { get; set; }
 
-    #region MODEL CREATING
+     #region MODEL CREATING
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

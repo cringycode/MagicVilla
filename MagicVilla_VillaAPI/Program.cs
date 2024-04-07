@@ -1,5 +1,6 @@
 using MagicVilla_VillaAPI;
 using MagicVilla_VillaAPI.Data;
+using MagicVilla_VillaAPI.Models;
 using MagicVilla_VillaAPI.Repo;
 using MagicVilla_VillaAPI.Repo.IRepo;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,7 @@ builder.Services.AddDbContext<AppDbContext>(option =>
 });
 
 builder.Services.AddScoped<IVillaRepo, VillaRepo>();
+builder.Services.AddScoped<IVillaNumberRepo, VillaNumberRepo>();
 builder.Services.AddAutoMapper(typeof(MappingConfig)); // Version 13.0.1 Won't Work.
 builder.Services.AddControllers(option => { option.ReturnHttpNotAcceptable = true; })
     .AddNewtonsoftJson().AddXmlDataContractSerializerFormatters();
