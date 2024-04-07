@@ -18,4 +18,4 @@ public class Villa
     public string Amenity { get; set; }
     public DateTime CreatedDate { get; set; }
     public DateTime UpdatedDate { get; set; }
-}
+}               

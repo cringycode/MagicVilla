@@ -18,12 +18,14 @@ public class VillaNumberAPIController : ControllerBase
 
     protected ApiResponse _response;
     private readonly IVillaNumberRepo _dbVillaNumber;
+    private readonly IVillaRepo _dbVilla;
     private readonly IMapper _mapper;
 
-    public VillaNumberAPIController(IVillaNumberRepo dbVillaNumber, IMapper mapper)
+    public VillaNumberAPIController(IVillaNumberRepo dbVillaNumber, IMapper mapper, IVillaRepo dbVilla)
     {
         _dbVillaNumber = dbVillaNumber;
         _mapper = mapper;
+        _dbVilla = dbVilla;
         this._response = new();
     }
 
@@ -103,6 +105,12 @@ public class VillaNumberAPIController : ControllerBase
             return BadRequest(ModelState);
         }
 
+        if (await _dbVilla.Get(u=>u.Id == createDTO.VillaID) == null)
+        {
+            ModelState.AddModelError("CustomError", "Villa ID already Exists!");
+            return BadRequest(ModelState);
+        }
+
         if (createDTO is null)
         {
             return BadRequest(createDTO);
@@ -118,7 +126,7 @@ public class VillaNumberAPIController : ControllerBase
 
     #endregion
 
-     #region DELETE
+    #region DELETE
 
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -160,13 +168,19 @@ public class VillaNumberAPIController : ControllerBase
     [HttpPut("{id:int}", Name = "UpdateVillavillaNumber")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<ApiResponse>> UpdateVillavillaNumber(int id, [FromBody] VillaNumberUpdateDTO updateDTO)
+    public async Task<ActionResult<ApiResponse>> UpdateVillavillaNumber(int id,
+        [FromBody] VillaNumberUpdateDTO updateDTO)
     {
         try
         {
             if (updateDTO == null || id != updateDTO.VillaNo)
             {
                 return BadRequest();
+            }
+            if (await _dbVilla.Get(u=>u.Id == updateDTO.VillaID) == null)
+            {
+                ModelState.AddModelError("CustomError", "Villa ID already Exists!");
+                return BadRequest(ModelState);
             }
 
             VillaNumber model = _mapper.Map<VillaNumber>(updateDTO);
@@ -187,5 +201,4 @@ public class VillaNumberAPIController : ControllerBase
     }
 
     #endregion
-    
 }
