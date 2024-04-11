@@ -16,7 +16,7 @@ public class VillaAPIController : ControllerBase
 {
     #region DI
 
-    protected ApiResponse _response;
+    protected APIResponse _response;
     private readonly IVillaRepo _dbVilla;
     private readonly IMapper _mapper;
 
@@ -33,7 +33,7 @@ public class VillaAPIController : ControllerBase
 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<ApiResponse>> GetVillas()
+    public async Task<ActionResult<APIResponse>> GetVillas()
     {
         try
         {
@@ -60,7 +60,7 @@ public class VillaAPIController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     //[ProducesResponseType(200, Type =typeof(VillaDTO))]
-    public async Task<ActionResult<ApiResponse>> GetVilla(int id)
+    public async Task<ActionResult<APIResponse>> GetVilla(int id)
     {
         try
         {
@@ -96,7 +96,7 @@ public class VillaAPIController : ControllerBase
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<ApiResponse>> CreateVilla([FromBody] VillaCreateDTO createDTO)
+    public async Task<ActionResult<APIResponse>> CreateVilla([FromBody] VillaCreateDTO createDTO)
     {
         if (await _dbVilla.Get(u => u.Name.ToLower() == createDTO.Name.ToLower()) != null)
         {
@@ -125,7 +125,7 @@ public class VillaAPIController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [HttpDelete("{id:int}", Name = "DeleteVilla")]
-    public async Task<ActionResult<ApiResponse>> DeleteVilla(int id)
+    public async Task<ActionResult<APIResponse>> DeleteVilla(int id)
     {
         try
         {
@@ -161,7 +161,7 @@ public class VillaAPIController : ControllerBase
     [HttpPut("{id:int}", Name = "UpdateVilla")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<ApiResponse>> UpdateVilla(int id, [FromBody] VillaUpdateDTO updateDTO)
+    public async Task<ActionResult<APIResponse>> UpdateVilla(int id, [FromBody] VillaUpdateDTO updateDTO)
     {
         try
         {

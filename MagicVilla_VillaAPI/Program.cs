@@ -14,6 +14,7 @@ builder.Services.AddDbContext<AppDbContext>(option =>
 });
 
 builder.Services.AddScoped<IVillaRepo, VillaRepo>();
+builder.Services.AddScoped<IVillaNumberRepo, VillaNumberRepo>();
 builder.Services.AddAutoMapper(typeof(MappingConfig)); // Version 13.0.1 Won't Work.
 builder.Services.AddControllers(option => { option.ReturnHttpNotAcceptable = true; })
     .AddNewtonsoftJson().AddXmlDataContractSerializerFormatters();
