@@ -15,17 +15,19 @@ public class VillaNumberAPIController : ControllerBase
 
     protected APIResponse _response;
     private readonly IVillaNumberRepo _dbVillaNumber;
+    private readonly IVillaRepo _dbVilla;
     private readonly IMapper _mapper;
 
-    public VillaNumberAPIController(IVillaNumberRepo dbVillaNumber, IMapper mapper)
+    public VillaNumberAPIController(IVillaNumberRepo dbVillaNumber, IMapper mapper, IVillaRepo dbVilla)
     {
         _dbVillaNumber = dbVillaNumber;
         _mapper = mapper;
         this._response = new();
+        _dbVilla = dbVilla;
     }
 
     #endregion
-    
+
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<APIResponse>> GetVillaNumbers()
@@ -96,6 +98,12 @@ public class VillaNumberAPIController : ControllerBase
                 return BadRequest(ModelState);
             }
 
+            if (await _dbVilla.Get(u => u.Id == createDTO.VillaID) == null)
+            {
+                ModelState.AddModelError("CustomError", "Villa ID Is Invalid!");
+                return BadRequest(ModelState);
+            }
+
             if (createDTO == null)
             {
                 return BadRequest(createDTO);
@@ -163,6 +171,12 @@ public class VillaNumberAPIController : ControllerBase
             if (updateDTO == null || id != updateDTO.VillaNo)
             {
                 return BadRequest();
+            }
+            
+            if (await _dbVilla.Get(u => u.Id == updateDTO.VillaID) == null)
+            {
+                ModelState.AddModelError("CustomError", "Villa ID Is Invalid!");
+                return BadRequest(ModelState);
             }
 
             VillaNumber model = _mapper.Map<VillaNumber>(updateDTO);
